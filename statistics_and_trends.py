@@ -32,8 +32,7 @@ def plot_relational_plot(df):
     plt.tight_layout()
     plt.savefig('relational_plot.png')
     plt.show()
-    
-    
+        
 def plot_categorical_plot(df):
     """
     Creates and saves a categorical plot showing the average temperature
@@ -66,8 +65,7 @@ def plot_categorical_plot(df):
         plt.show()
     else:
         print("Required columns for the categorical plot are not available.")
-        
-        
+                
 def plot_statistical_plot(df):
     """
     Creates and saves a combined statistical plot using:
@@ -117,7 +115,6 @@ def plot_statistical_plot(df):
         print("No valid numerical columns available for the statistical plot.")
     return
 
-
 def statistical_analysis(df, col: str):
     """
     Calculates and returns the four main
@@ -137,7 +134,6 @@ def statistical_analysis(df, col: str):
         return mean, stddev, skew, excess_kurtosis
     print(f"Column '{col}' not found in the DataFrame.")
     return None, None, None, None
-
 
 def preprocessing(df):
     """
@@ -170,7 +166,6 @@ def preprocessing(df):
     print(df.corr())
     return df
 
-
 def writing(moments, col):
     """
     Provides a descriptive summary of the statistical analysis results.
@@ -198,8 +193,7 @@ def writing(moments, col):
         print(f'The data is {skew_type} and {kurtosis_type}.')
     else:
         print(f"Invalid or missing moments for column '{col}'.")
-        
-        
+               
 def main():
     df = pd.read_csv('data.csv')
     df = preprocessing(df)
@@ -209,7 +203,6 @@ def main():
     plot_categorical_plot(df)
     moments = statistical_analysis(df, col)
     writing(moments, col)
-    
     
 if __name__ == '__main__':
     main()
