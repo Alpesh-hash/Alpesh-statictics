@@ -89,9 +89,10 @@ def plot_statistical_plot(df):
     if existing_columns:
         data = df[existing_columns].dropna()
         print(
-            f"Generating box plot and corner plot for columns: "
-            f"{existing_columns}"
-       )
+    f"Generating box plot and corner plot for columns: "
+    f"{existing_columns}"
+)
+
         # 1. Generate a Box Plot (Statistical Plot Requirement)
         fig, ax = plt.subplots(figsize=(10, 6))
         sns.set_theme(style="whitegrid")
