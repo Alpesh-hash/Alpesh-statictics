@@ -111,6 +111,7 @@ def plot_statistical_plot(df):
             title_fmt=".2f", color='red'
         )
         corner_fig.savefig('statistical_corner_plot.png')
+        plt.show()
         plt.close(corner_fig)
         print("Corner plot saved as 'statistical_corner_plot.png'.")
     else:
