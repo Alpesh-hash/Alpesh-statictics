@@ -214,7 +214,7 @@ def main():
     plot_statistical_plot(df)
     plot_categorical_plot(df)
     moments = statistical_analysis(df, col)
-    writing(moments, col)0
+    writing(moments, col)
 if __name__ == '__main__':
     main()
 
