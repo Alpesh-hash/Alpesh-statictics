@@ -13,9 +13,11 @@ import numpy as np
 import pandas as pd
 import scipy.stats as ss
 import seaborn as sns
+
+
 def plot_relational_plot(df):
     """
-    Creates and saves a relational 
+    Creates and saves a relational
     plot showing temperature anomalies over time.
     """
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -30,6 +32,8 @@ def plot_relational_plot(df):
     plt.tight_layout()
     plt.savefig('relational_plot.png')
     plt.show()
+
+
 def plot_categorical_plot(df):
     """
     Creates and saves a categorical plot showing the average temperature
@@ -63,6 +67,8 @@ def plot_categorical_plot(df):
         plt.show()
     else:
         print("Required columns for the categorical plot are not available.")
+
+
 def plot_statistical_plot(df):
     """
     Creates and saves a combined statistical plot using:
@@ -76,52 +82,54 @@ def plot_statistical_plot(df):
         '10-Year Temperature Anomaly',
         '20-Year Temperature Anomaly'
     ]
-    
+
     # Filter only the columns that exist in the DataFrame
     existing_columns = [col for col in numerical_columns if col in df.columns]
-    
+
     if existing_columns:
         data = df[existing_columns].dropna()
         print(
-    f"Generating box plot and corner plot for columns: "
-    f"{existing_columns}"
-)    
+            f"Generating box plot and corner plot for columns: "
+            f"{existing_columns}"
+       )
         # 1. Generate a Box Plot (Statistical Plot Requirement)
         fig, ax = plt.subplots(figsize=(10, 6))
         sns.set_theme(style="whitegrid")
-        
+
         sns.boxplot(
             data=data,
             ax=ax,
             palette='coolwarm'
         )
-        
+
         ax.set_title('Distribution of Temperature Anomalies', fontsize=16)
         ax.set_xlabel('Temperature Anomaly Type', fontsize=14)
         ax.set_ylabel('Temperature Anomaly (°C)', fontsize=14)
         plt.xticks(rotation=30)
-        
+
         plt.tight_layout()
         plt.savefig('statistical_box_plot.png')
         plt.show()
         print("Statistical box plot saved as 'statistical_box_plot.png'.")
-        
-        # 2. Generate a Corner Plot 
+
+        # 2. Generate a Corner Plot
         corner_fig = corner(
             data, labels=existing_columns, show_titles=True,
             title_fmt=".2f", color='red'
         )
-        
+
         corner_fig.savefig('statistical_corner_plot.png')
         plt.close(corner_fig)
         print("Corner plot saved as 'statistical_corner_plot.png'.")
-    
+
     else:
         print("No valid numerical columns available for the statistical plot.")
     return
+
+
 def statistical_analysis(df, col: str):
     """
-    Calculates and returns the four main 
+    Calculates and returns the four main
     statistical moments for a given column.
     """
     if col in df.columns:
@@ -130,22 +138,24 @@ def statistical_analysis(df, col: str):
         stddev = np.std(data, ddof=1)
         skew = ss.skew(data, nan_policy='omit')
         excess_kurtosis = ss.kurtosis(data, nan_policy='omit')
-        
+
         print(f"Statistical Analysis for '{col}':")
         print(f"Mean = {mean:.2f}")
         print(f"Standard Deviation = {stddev:.2f}")
         print(f"Skewness = {skew:.2f}")
         print(f"Excess Kurtosis = {excess_kurtosis:.2f}")
-        
+
         return mean, stddev, skew, excess_kurtosis
     print(f"Column '{col}' not found in the DataFrame.")
     return None, None, None, None
+
+
 def preprocessing(df):
     """
     Preprocesses the DataFrame by cleaning and formatting data.
     """
     df.columns = df.columns.str.strip()
-    
+
     for column in df.columns:
         if df[column].dtype == 'object':
             df[column] = pd.to_numeric(df[column], errors='coerce')
@@ -175,13 +185,15 @@ def preprocessing(df):
     print(df.corr())
 
     return df
+
+
 def writing(moments, col):
     """
     Provides a descriptive summary of the statistical analysis results.
     """
     if moments and all(m is not None for m in moments):
         mean, stddev, skew, excess_kurtosis = moments
-        
+
         # Print statistical moments in a multiline format
         print(f'For the attribute "{col}":')
         print(
@@ -202,10 +214,12 @@ def writing(moments, col):
             'leptokurtic' if excess_kurtosis > 0 else
             'mesokurtic'
         )
-        
+
         print(f'The data is {skew_type} and {kurtosis_type}.')
     else:
         print(f"Invalid or missing moments for column '{col}'.")
+
+
 def main():
     df = pd.read_csv('data.csv')
     df = preprocessing(df)
@@ -215,6 +229,7 @@ def main():
     plot_categorical_plot(df)
     moments = statistical_analysis(df, col)
     writing(moments, col)
+
+
 if __name__ == '__main__':
     main()
-
